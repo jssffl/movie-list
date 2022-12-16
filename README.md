@@ -1,14 +1,15 @@
 # Movie List
 A simple web application for movie fanatic
 
-## Features
-- Listing movies from movie api
-- Searching movies by title
-- Add movies to your favorite list
-- Manage your favorite list
+![image](https://github.com/jssffl/movie-list/blob/main/movieList-homePage.png)
 
-### Searching
-type the title of the movies in search bar
+## Features
+- fetch movies from API by axios library
+- Search movies by title
+- Add movies to favorite list via local storage. 
+- Show movie details by modal
+- Toggle mode to list or card mode
+
 ### Favorite List
 In index page, press the `+` button on the movie to keep it into favorite list.
 You can checkout the favorite list in `favorite.html`
