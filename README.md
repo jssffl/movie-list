@@ -4,7 +4,7 @@ A simple web application for movie fanatic
 ![image](https://github.com/jssffl/movie-list/blob/main/movieList-homePage.png)
 
 ## Features
-- fetch movies from API by axios library
+- Fetch movies from API by axios library
 - Search movies by title
 - Add movies to favorite list via local storage. 
 - Show movie details by modal
