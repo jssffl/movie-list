@@ -1,18 +1,21 @@
-const BASE_URL = "https://movie-list.alphacamp.io";
-const INDEX_URL = BASE_URL + "/api/v1/movies/";
-const POSTER_URL = BASE_URL + "/posters/";
+const BASE_URL = 'https://movie-list.alphacamp.io'
+const INDEX_URL = BASE_URL + '/api/v1/movies/'
+const POSTER_URL = BASE_URL + '/posters/'
 
-const movies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+const movies = JSON.parse(localStorage.getItem('favoriteMovies')) || []
 
-const dataPanel = document.querySelector("#data-panel");
+const dataPanel = document.querySelector('#data-panel')
 
 function renderMovieList(data) {
-  let rawHTML = "";
+  let rawHTML = ''
 
-  data.forEach((item) => {
-    const { image, title, id } = item;
+  if (data && data.length === 0) {
+    rawHTML += `<p class="text-center">No movies</p>`
+  } else {
+    data.forEach((item) => {
+      const { image, title, id } = item
 
-    rawHTML += `<div class="col-sm-3">
+      rawHTML += `<div class="col-sm-3">
           <div class="mb-2">
             <div class="card">
               <img
@@ -37,55 +40,55 @@ function renderMovieList(data) {
             </div>
           </div>
         </div>
-        `;
-  });
-
-  dataPanel.innerHTML = rawHTML;
+        `
+    })
+  }
+  dataPanel.innerHTML = rawHTML
 }
 
 function showMovieModal(id) {
-  const modalTitle = document.querySelector("#movie-modal-title");
-  const modalImage = document.querySelector("#movie-modal-image");
-  const modalDate = document.querySelector("#movie-modal-date");
-  const modalDescription = document.querySelector("#movie-modal-description");
+  const modalTitle = document.querySelector('#movie-modal-title')
+  const modalImage = document.querySelector('#movie-modal-image')
+  const modalDate = document.querySelector('#movie-modal-date')
+  const modalDescription = document.querySelector('#movie-modal-description')
 
   // send request to show api
   axios
     .get(INDEX_URL + id)
     .then((res) => {
-      const { title, release_date, description, image } = res.data.results;
+      const { title, release_date, description, image } = res.data.results
 
       // insert data into modal ui
-      modalTitle.innerText = title;
-      modalDate.innerText = "Release date: " + release_date;
-      modalDescription.innerText = description;
+      modalTitle.innerText = title
+      modalDate.innerText = 'Release date: ' + release_date
+      modalDescription.innerText = description
       modalImage.innerHTML = `<img src=${
         POSTER_URL + image
-      } alt="movie-poster"  class="img-fluid"/>`;
+      } alt="movie-poster"  class="img-fluid"/>`
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
 }
 
 function removeFromFavorite(id) {
-  if (!movies || !movies.length) return;
+  if (!movies || !movies.length) return
 
-  const movieIndex = movies.findIndex((movie) => movie.id === id);
-  if (movieIndex === -1) return;
+  const movieIndex = movies.findIndex((movie) => movie.id === id)
+  if (movieIndex === -1) return
   //刪除該筆電影
-  movies.splice(movieIndex, 1);
+  movies.splice(movieIndex, 1)
 
   //存回 local storage
-  localStorage.setItem("favoriteMovies", JSON.stringify(movies));
+  localStorage.setItem('favoriteMovies', JSON.stringify(movies))
   //更新頁面
-  renderMovieList(movies);
+  renderMovieList(movies)
 }
 // listen to data panel
-dataPanel.addEventListener("click", function onPanelClicked(event) {
-  if (event.target.matches(".btn-show-movie")) {
-    showMovieModal(event.target.dataset.id);
-  } else if (event.target.matches(".btn-remove-favorite")) {
-    removeFromFavorite(Number(event.target.dataset.id));
+dataPanel.addEventListener('click', function onPanelClicked(event) {
+  if (event.target.matches('.btn-show-movie')) {
+    showMovieModal(event.target.dataset.id)
+  } else if (event.target.matches('.btn-remove-favorite')) {
+    removeFromFavorite(Number(event.target.dataset.id))
   }
-});
+})
 
-renderMovieList(movies);
+renderMovieList(movies)
